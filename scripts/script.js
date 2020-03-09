@@ -1,6 +1,6 @@
 var currentQuizObject;
 var quizObjects = [];
-var highScores = [];
+var highScores;
 var score = 0;
 
 class highScore {
@@ -19,8 +19,22 @@ var inCorrectTextElement = document.getElementById("in-correct-text");
 
 var timeLeftElement = document.getElementById("time-left");
 
-var initialSubmitElement = document.getElementById("submit-initials");
+var submitInitialsElement = document.getElementById("submit-initials");
 var initialsElement = document.getElementById("initials");
+
+var starQuizElement = document.getElementById("start-quiz-button");
+starQuizElement.addEventListener("click", function() {startQuiz()});
+
+var titleCardElement = document.getElementById("title-card");
+var questionCardElement = document.getElementById("question-card");
+var allDoneCard = document.getElementById("all-done-card");
+var highScoresCard = document.getElementById("high-scores-card");
+var headerBarElement = document.getElementById("header-bar");
+var goBackButtonElement = document.getElementById("go-back");
+var clearHighScoresButtonElement = document.getElementById("clear-high-scores");
+var highScoresListElement = document.getElementById("high-scores");
+var viewHighScoresElement = document.getElementById("view-high-scores");
+var finalScoreElement = document.getElementById("final-score");
 
 var timeLeft = 75; // 75 seconds to start
 var correctAnswers = 0;
@@ -126,19 +140,44 @@ var questionTen = {
     }
 }
 
+function loadHighScores() {
+    highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+    for (var i=0; i < highScores.length; i++) {
+        highScoresListElement.innerHTML = highScoresListElement.innerHTML + "<li>" + highScores[i].initials + " - " + highScores[i].highscore + "</li>";
+    }
+}
 
-initialSubmitElement.addEventListener("submit", function(event) {
-    event.preventDefault();
-    var hs = new highScore(initialsElement.value, score);
-    highScores.push(hs);
-    console.log(highScores);
-})
+function addHighScore(initials, score) {
+    highScores.push(new highScore(initials, score));
+    localStorage.setItem("highScores", JSON.stringify(highScores));
+    highScoresListElement.innerHTML = highScoresListElement.innerHTML + "<li>" + initials + " - " + score + "</li>"
+}
 
-initialSubmitElement.addEventListener("click", function (event) {
+function submitInitials(event) {
     event.preventDefault();
-    var hs = new highScore(initialsElement.value, score);
-    highScores.push(hs);
-    console.log(highScores);
+    addHighScore(initialsElement.value, score);
+    allDoneCard.setAttribute("style", "display: none;");
+    headerBarElement.setAttribute("style", "visibility: hidden;");
+    highScoresCard.setAttribute("style", "display: flex;");
+}
+
+function goBack(event) {
+    event.preventDefault();
+    highScoresCard.setAttribute("style", "display: none;");
+    headerBarElement.setAttribute("style", "visibility: visible;");
+    titleCardElement.setAttribute("style", "display: flex;");
+}
+
+goBackButtonElement.addEventListener("click", goBack);
+
+submitInitialsElement.addEventListener("submit", submitInitials);
+
+submitInitialsElement.addEventListener("click", submitInitials);
+
+clearHighScoresButtonElement.addEventListener("click", function() {
+    highScores = [];
+    localStorage.setItem("highScores", JSON.stringify([]));
+    highScoresListElement.innerHTML = "";
 })
 
 function answerButtonClicked(evt) {
@@ -154,9 +193,10 @@ function answerButtonClicked(evt) {
 function correctAnswer() {
     clearTimeout(inCorrectTimeout);
     inCorrectTextElement.textContent = "Correct";
-    inCorrectElement.setAttribute("style", "visibility: visible;");
+    inCorrectElement.setAttribute("style", "visibility: visible; color: #28a745;");
     inCorrectTimeout = setTimeout(function () {
         inCorrectElement.setAttribute("style", "visibility: hidden;")
+        inCorrectElement.set
     }, 1000);
     correctAnswers++;
 }
@@ -164,7 +204,7 @@ function correctAnswer() {
 function incorrectAnswer() {
     clearTimeout(inCorrectTimeout);
     inCorrectTextElement.textContent = "Incorrect";
-    inCorrectElement.setAttribute("style", "visibility: visible;");
+    inCorrectElement.setAttribute("style", "visibility: visible; color: #dc3545;");
     inCorrectTimeout = setTimeout(function () {
         inCorrectElement.setAttribute("style", "visibility: hidden;")
     }, 1000);
@@ -172,10 +212,8 @@ function incorrectAnswer() {
 }
 
 function subtractTimeFromClock() {
-    timeLeft -= 15;
-    if (timeLeft < 0) {
-        timeLeft = 0;
-    }
+    timeLeft = timeLeft >= 15 ? timeLeft - 15 : 0;
+    timeLeftElement.textContent = timeLeft;
 }
 
 function loadQuizObject(quiz_object) {
@@ -196,23 +234,38 @@ function loadNextQuizObject() {
 
 }
 
-function gotoHighScores() {
-
+function viewHighScores(event) {
+    event.preventDefault();
+    clearInterval(countdownTimerInterval);
+    headerBarElement.setAttribute("style", "visibility: hidden;")
+    titleCardElement.setAttribute("style", "display: none;");
+    allDoneCard.setAttribute("style", "display: none;")
+    questionCardElement.setAttribute("style", "display: none;");
+    highScoresCard.setAttribute("style", "display: flex;");
 }
 
+viewHighScoresElement.addEventListener("click", viewHighScores);
+
 function startQuiz() {
-    correctAnswers = 0;
     timeLeft = 75;
+    score = 0;
+    timeLeftElement.textContent = "Time: " + timeLeft;
+    titleCardElement.setAttribute("style", "display: none;");
+    questionCardElement.setAttribute("style", "display: flex;");
+    correctAnswers = 0;
     quizObjects = [questionOne, questionTwo, questionThree, questionFour, questionFive, questionSix, questionSeven, questionEight, questionNine, questionTen];
     startCountdownTimer()
     loadNextQuizObject();
 }
 
 function endQuiz() {
+    timeLeftElement.textContent = timeLeft;
+    questionCardElement.setAttribute("style", "display: none;");
+    allDoneCard.setAttribute("style", "display: flex;")
     clearInterval(countdownTimerInterval);
-    alert("Quiz Ended");
-    console.log("time Left: " + timeLeft);
-    console.log("correct answers: " + correctAnswers);
-    console.log("score: " + correctAnswers * (timeLeft > 0 ? timeLeft : 1));
     score = correctAnswers * (timeLeft > 0 ? timeLeft : 1);
+    finalScoreElement.textContent = score;
+
 }
+
+loadHighScores();

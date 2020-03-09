@@ -17,7 +17,7 @@
 <body>
     <div class="wrapper">
         <header>
-            <div class="container-fluid">
+            <div class="container-fluid" id="header-bar">
                 <div class="row justify-content-between">
                     <div class="col-6" id="view-high-scores">
                         <a id="view-high-scores" href="#">View High Scores</a>
@@ -27,9 +27,22 @@
                     </div>
                 </div>
             </div>
-            <h1>Code Quiz</h1>
+            <!-- <h1>Code Quiz</h1> -->
         </header>
-        <div class="card">
+        <div class="card text-center" id="title-card">
+            <div class="card-header" id="all-done-header">
+                <h2>Coding Quiz Challenge</h3>
+            </div>
+            <div class="card-body">
+                <h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi libero expedita dolore ea quam eius culpa enim nihil in qui.</h4>
+                <br />
+                <a href="#" class="btn btn-primary" id="start-quiz-button">Start Quiz</a>
+            </div>
+            <!-- <div class="card-footer" id="answer-in-correct" style="visibility: hidden;">
+                <h5 id="in-correct-text">Correct!</h5>
+            </div> -->
+        </div>
+        <div class="card" id="question-card">
             <div class="card-header">
                 <h3 id="quiz-question">Question Goes Here</h3>
             </div>
@@ -60,7 +73,7 @@
                 <h3>All Done!</h3>
             </div>
             <div class="card-body">
-                <h5>Your final score is: <span id="final-score">0</span></h5>
+                <h5>Your final score is: <span id="final-score"></span></h5>
                 <br />
                 <form>
                     <div class="form-group form-inline">
@@ -78,9 +91,7 @@
             <div class="card-header" id="all-done-header">
                 <h2>High Scores</h3>
             </div>
-            <ol>
-                <li>ZH - 123</li>
-                <li>ABC - 75</li>
+            <ol id="high-scores">
             </ol>
             <div class="card-body">
                 <form>
