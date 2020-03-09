@@ -3,13 +3,30 @@ var quizObjects = [];
 var answerButtonElements = [document.getElementById("choice-1"), document.getElementById("choice-2"),
     document.getElementById("choice-3"), document.getElementById("choice-4")
 ];
-
-// Set onClick functions on the buttons
-for (var i=0; i < answerButtonElements.length; i++) {
-    answerButtonElements[i].addEventListener("click", answerButtonClicked, false);
-}
 var questionTextElement = document.getElementById("quiz-question");
 var inCorrectElement = document.getElementById("answer-in-correct");
+var inCorrectTextElement = document.getElementById("in-correct-text");
+
+var timeLeftElement = document.getElementById("time-left");
+
+var secondsLeft = 75; // 75 seconds to start
+var inCorrectTimeout;
+
+function setTime() {
+    var timerInterval = setInterval(function () {
+        timeLeftElement.textContent = "Time: " + --secondsLeft;
+        if (secondsLeft <= 0) {
+            clearInterval(timerInterval);
+            endQuiz();
+        }
+
+    }, 1000);
+}
+
+// Set onClick functions on the buttons
+for (var i = 0; i < answerButtonElements.length; i++) {
+    answerButtonElements[i].addEventListener("click", answerButtonClicked, false);
+}
 
 var questionOne = {
     question: "What kind of function is passed as a parameter to another function?",
@@ -34,12 +51,26 @@ function answerButtonClicked(evt) {
 
 }
 
-function correctAnswer() {
+function endQuiz() {
 
 }
 
+function correctAnswer() {
+    clearTimeout(inCorrectTimeout);
+    inCorrectTextElement.textContent = "Correct";
+    inCorrectElement.setAttribute("style", "visibility: visible;");
+    inCorrectTimeout = setTimeout(function () {
+        inCorrectElement.setAttribute("style", "visibility: hidden;")
+    }, 1000);
+}
+
 function incorrectAnswer() {
-    
+    clearTimeout(inCorrectTimeout);
+    inCorrectTextElement.textContent = "Incorrect";
+    inCorrectElement.setAttribute("style", "visibility: visible;");
+    inCorrectTimeout = setTimeout(function () {
+        inCorrectElement.setAttribute("style", "visibility: hidden;")
+    }, 1000);
 }
 
 function loadQuizObject(quiz_object) {
@@ -50,6 +81,6 @@ function loadQuizObject(quiz_object) {
     }
 }
 
-function loadNextQuizObject(
-    loadQuizObject(quizObjects.shift())
-)
+function loadNextQuizObject() {
+    loadQuizObject(quizObjects.shift());
+}
