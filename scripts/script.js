@@ -1,7 +1,13 @@
 var currentQuizObject;
+var quizObjects = [];
 var answerButtonElements = [document.getElementById("choice-1"), document.getElementById("choice-2"),
     document.getElementById("choice-3"), document.getElementById("choice-4")
 ];
+
+// Set onClick functions on the buttons
+for (var i=0; i < answerButtonElements.length; i++) {
+    answerButtonElements[i].addEventListener("click", answerButtonClicked, false);
+}
 var questionTextElement = document.getElementById("quiz-question");
 var inCorrectElement = document.getElementById("answer-in-correct");
 
@@ -10,9 +16,30 @@ var questionOne = {
     options: ["void", "static", "callback", "banana"],
     correct: 2,
     isCorrect: function (choice) {
-        return (choice == this.correct)
+        return (choice == this.correct);
     }
 
+}
+
+currentQuizObject = questionOne;
+
+function answerButtonClicked(evt) {
+    var btnValue = parseInt(evt.target.value);
+    if (currentQuizObject.isCorrect(btnValue)) {
+        console.log(btnValue + "correct");
+        correctAnswer();
+    } else {
+        incorrectAnswer();
+    }
+
+}
+
+function correctAnswer() {
+
+}
+
+function incorrectAnswer() {
+    
 }
 
 function loadQuizObject(quiz_object) {
@@ -22,3 +49,7 @@ function loadQuizObject(quiz_object) {
         answerButtonElements[i].textContent = quiz_object.options[i];
     }
 }
+
+function loadNextQuizObject(
+    loadQuizObject(quizObjects.shift())
+)
