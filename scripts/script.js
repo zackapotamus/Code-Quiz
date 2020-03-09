@@ -1,6 +1,7 @@
 var currentQuizObject;
 var quizObjects = [];
 var highScores = [];
+var score = 0;
 
 class highScore {
     constructor(initials, score) {
@@ -18,17 +19,23 @@ var inCorrectTextElement = document.getElementById("in-correct-text");
 
 var timeLeftElement = document.getElementById("time-left");
 
-var secondsLeft = 75; // 75 seconds to start
-var inCorrectTimeout;
+var initialSubmitElement = document.getElementById("submit-initials");
+var initialsElement = document.getElementById("initials");
 
-function setTime() {
-    var timerInterval = setInterval(function () {
-        if (--secondsLeft <= 0) {
-            clearInterval(timerInterval);
+var timeLeft = 75; // 75 seconds to start
+var correctAnswers = 0;
+var inCorrectTimeout;
+var countdownTimerInterval;
+
+function startCountdownTimer() {
+    countdownTimerInterval = setInterval(function () {
+        if (--timeLeft <= 0) {
+            clearInterval(countdownTimerInterval);
             timeLeftElement.textContent = "Time: 0";
+            timeLeft = 0;
             endQuiz();
         } else {
-            timeLeftElement.textContent = "Time: " + secondsLeft;
+            timeLeftElement.textContent = "Time: " + timeLeft;
         }
     }, 1000);
 }
@@ -40,24 +47,24 @@ for (var i = 0; i < answerButtonElements.length; i++) {
 
 var questionOne = {
     question: "What kind of function is passed as a parameter to another function?",
-    options: ["void", "static", "callback", "banana"],
+    options: ["void", "static", "callback", "declaration"],
     correct: 2,
     isCorrect: function (choice) {
         return (choice == this.correct);
     }
 }
 var questionTwo = {
-    question: "What kind of function is passed as a parameter to another function?",
-    options: ["void", "static", "callback", "banana"],
-    correct: 2,
+    question: "A function defined without an identifier is a(n) ______ function.",
+    options: ["anonymous", "lambda", "shadowed", "static"],
+    correct: 0,
     isCorrect: function (choice) {
         return (choice == this.correct);
     }
 }
 var questionThree = {
-    question: "What kind of function is passed as a parameter to another function?",
-    options: ["void", "static", "callback", "banana"],
-    correct: 2,
+    question: "What control structure lets you iterate a set number of times?",
+    options: ["for loop", "while loop", "do-while", "banana"],
+    correct: 0,
     isCorrect: function (choice) {
         return (choice == this.correct);
     }
@@ -119,10 +126,20 @@ var questionTen = {
     }
 }
 
-quizObjects = [questionOne, questionTwo, questionThree, questionFour, questionFive, questionSix, questionSeven, questionEight, questionNine, questionTen];
 
+initialSubmitElement.addEventListener("submit", function(event) {
+    event.preventDefault();
+    var hs = new highScore(initialsElement.value, score);
+    highScores.push(hs);
+    console.log(highScores);
+})
 
-// currentQuizObject = questionOne;
+initialSubmitElement.addEventListener("click", function (event) {
+    event.preventDefault();
+    var hs = new highScore(initialsElement.value, score);
+    highScores.push(hs);
+    console.log(highScores);
+})
 
 function answerButtonClicked(evt) {
     var btnValue = parseInt(evt.target.value);
@@ -131,11 +148,7 @@ function answerButtonClicked(evt) {
     } else {
         incorrectAnswer();
     }
-
-}
-
-function endQuiz() {
-    alert("Quiz Ended");
+    loadNextQuizObject();
 }
 
 function correctAnswer() {
@@ -145,6 +158,7 @@ function correctAnswer() {
     inCorrectTimeout = setTimeout(function () {
         inCorrectElement.setAttribute("style", "visibility: hidden;")
     }, 1000);
+    correctAnswers++;
 }
 
 function incorrectAnswer() {
@@ -154,7 +168,14 @@ function incorrectAnswer() {
     inCorrectTimeout = setTimeout(function () {
         inCorrectElement.setAttribute("style", "visibility: hidden;")
     }, 1000);
-    secondsLeft -= 15;
+    subtractTimeFromClock();
+}
+
+function subtractTimeFromClock() {
+    timeLeft -= 15;
+    if (timeLeft < 0) {
+        timeLeft = 0;
+    }
 }
 
 function loadQuizObject(quiz_object) {
@@ -166,7 +187,13 @@ function loadQuizObject(quiz_object) {
 }
 
 function loadNextQuizObject() {
-    loadQuizObject(quizObjects.shift());
+    var nextQuizObject = quizObjects.shift();
+    if (nextQuizObject) {
+        loadQuizObject(nextQuizObject);
+    } else {
+        endQuiz();
+    }
+
 }
 
 function gotoHighScores() {
@@ -174,6 +201,18 @@ function gotoHighScores() {
 }
 
 function startQuiz() {
-    setTime()
+    correctAnswers = 0;
+    timeLeft = 75;
+    quizObjects = [questionOne, questionTwo, questionThree, questionFour, questionFive, questionSix, questionSeven, questionEight, questionNine, questionTen];
+    startCountdownTimer()
     loadNextQuizObject();
+}
+
+function endQuiz() {
+    clearInterval(countdownTimerInterval);
+    alert("Quiz Ended");
+    console.log("time Left: " + timeLeft);
+    console.log("correct answers: " + correctAnswers);
+    console.log("score: " + correctAnswers * (timeLeft > 0 ? timeLeft : 1));
+    score = correctAnswers * (timeLeft > 0 ? timeLeft : 1);
 }

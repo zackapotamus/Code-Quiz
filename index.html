@@ -20,7 +20,7 @@
             <div class="container-fluid">
                 <div class="row justify-content-between">
                     <div class="col-6" id="view-high-scores">
-                        View High Scores
+                        <a id="view-high-scores" href="#">View High Scores</a>
                     </div>
                     <div class="col-6" id="time-left">
                         Time: 75
@@ -54,6 +54,45 @@
             <div class="card-footer" id="answer-in-correct" style="visibility: hidden;">
                 <h5 id="in-correct-text">Correct!</h5>
             </div>
+        </div>
+        <div class="card" id="all-done-card">
+            <div class="card-header" id="all-done-header">
+                <h3>All Done!</h3>
+            </div>
+            <div class="card-body">
+                <h5>Your final score is: <span id="final-score">0</span></h5>
+                <br />
+                <form>
+                    <div class="form-group form-inline">
+                        <lablel for="initials">Enter your initials: </lablel>
+                        <input type="text" class="form-control" id="initials" />
+                        <button type="submit" class="btn btn-primary" id="submit-initials">Submit</button>
+                    </div>
+                </form>
+            </div>
+            <!-- <div class="card-footer" id="answer-in-correct" style="visibility: hidden;">
+                <h5 id="in-correct-text">Correct!</h5>
+            </div> -->
+        </div>
+        <div class="card" id="high-scores-card">
+            <div class="card-header" id="all-done-header">
+                <h2>High Scores</h3>
+            </div>
+            <ol>
+                <li>ZH - 123</li>
+                <li>ABC - 75</li>
+            </ol>
+            <div class="card-body">
+                <form>
+                    <div class="form-group form-inline">
+                        <button class="btn btn-primary" id="go-back">Go Back</button>
+                        <button class="btn btn-primary" id="clear-high-scores">Clear High Scores</button>
+                    </div>
+                </form>
+            </div>
+            <!-- <div class="card-footer" id="answer-in-correct" style="visibility: hidden;">
+                <h5 id="in-correct-text">Correct!</h5>
+            </div> -->
         </div>
     </div>
     <script src="scripts/script.js"></script>
