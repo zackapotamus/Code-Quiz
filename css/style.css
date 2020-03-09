@@ -10,20 +10,17 @@ body,
     height: 100%;
     margin: 0;
     padding: 0;
-    padding-top: 30px;
-    padding-left: 20px;
-    padding-right: 20px;
 }
 
 body {
     background-color: #f9fbfd;
 }
 
-/* .wrapper {
+.wrapper {
     padding-top: 30px;
     padding-left: 20px;
     padding-right: 20px;
-} */
+}
 
 h1,
 
