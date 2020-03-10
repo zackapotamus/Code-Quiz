@@ -26,6 +26,8 @@ var submitInitialsElement = document.getElementById("submit-initials");
 var initialsElement = document.getElementById("initials");
 
 var starQuizElement = document.getElementById("start-quiz-button");
+
+// clicking the start quiz button starts the quiz
 starQuizElement.addEventListener("click", function() {startQuiz()});
 
 var titleCardElement = document.getElementById("title-card");
@@ -62,6 +64,7 @@ for (var i = 0; i < answerButtonElements.length; i++) {
     answerButtonElements[i].addEventListener("click", answerButtonClicked, false);
 }
 
+// here we hard code our questions before putting them in an array
 var questionOne = {
     question: "What kind of function is passed as a parameter to another function?",
     options: ["void", "static", "callback", "declaration"],
@@ -127,6 +130,7 @@ var questionEight = {
     }
 }
 
+// grab high scores from local storage and display them to the screen
 function loadHighScores() {
     highScores = JSON.parse(localStorage.getItem("highScores")) || [];
     for (var i=0; i < highScores.length; i++) {
@@ -134,12 +138,14 @@ function loadHighScores() {
     }
 }
 
+// add a new high score
 function addHighScore(initials, score) {
     highScores.push(new highScore(initials, score));
     localStorage.setItem("highScores", JSON.stringify(highScores));
     highScoresListElement.innerHTML = highScoresListElement.innerHTML + "<li>" + initials + " - " + score + "</li>"
 }
 
+// event for when submit button pressed for entering initials
 function submitInitials(event) {
     event.preventDefault();
     addHighScore(initialsElement.value, score);
@@ -148,6 +154,7 @@ function submitInitials(event) {
     highScoresCard.setAttribute("style", "display: flex;");
 }
 
+// go back button (to start the quiz over) when viewing high scores
 function goBack(event) {
     event.preventDefault();
     highScoresCard.setAttribute("style", "display: none;");
@@ -155,12 +162,14 @@ function goBack(event) {
     titleCardElement.setAttribute("style", "display: flex;");
 }
 
+// attach functions to click events
 goBackButtonElement.addEventListener("click", goBack);
 
 submitInitialsElement.addEventListener("submit", submitInitials);
 
 submitInitialsElement.addEventListener("click", submitInitials);
 
+// for clearing high scores
 clearHighScoresButtonElement.addEventListener("click", function() {
     preventDefault();
     highScores = [];
@@ -168,6 +177,7 @@ clearHighScoresButtonElement.addEventListener("click", function() {
     highScoresListElement.innerHTML = "";
 })
 
+// for handling clicks on answer buttons
 function answerButtonClicked(evt) {
     var btnValue = parseInt(evt.target.value);
     if (currentQuizObject.isCorrect(btnValue)) {
@@ -178,6 +188,7 @@ function answerButtonClicked(evt) {
     loadNextQuizObject();
 }
 
+// you chose the correct answer
 function correctAnswer() {
     clearTimeout(inCorrectTimeout);
     inCorrectTextElement.textContent = "Correct";
@@ -189,6 +200,7 @@ function correctAnswer() {
     // correctAnswers++;
 }
 
+// you chose an incorrect answer
 function incorrectAnswer() {
     clearTimeout(inCorrectTimeout);
     inCorrectTextElement.textContent = "Incorrect";
@@ -204,6 +216,7 @@ function subtractTimeFromClock() {
     timeLeftElement.textContent = timeLeft;
 }
 
+// this is how we load our object to display questions and populate answer options
 function loadQuizObject(quiz_object) {
     currentQuizObject = quiz_object;
     questionTextElement.textContent = quiz_object.question;
@@ -234,6 +247,7 @@ function viewHighScores(event) {
 
 viewHighScoresElement.addEventListener("click", viewHighScores);
 
+// this is where we start the quiz
 function startQuiz() {
     timeLeft = 75;
     // score = 0;
@@ -246,6 +260,7 @@ function startQuiz() {
     loadNextQuizObject();
 }
 
+// quiz over. how'd you do?
 function endQuiz() {
     timeLeftElement.textContent = timeLeft;
     questionCardElement.setAttribute("style", "display: none;");
