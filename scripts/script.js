@@ -175,6 +175,7 @@ submitInitialsElement.addEventListener("submit", submitInitials);
 submitInitialsElement.addEventListener("click", submitInitials);
 
 clearHighScoresButtonElement.addEventListener("click", function() {
+    preventDefault();
     highScores = [];
     localStorage.setItem("highScores", JSON.stringify([]));
     highScoresListElement.innerHTML = "";
