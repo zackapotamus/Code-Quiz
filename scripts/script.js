@@ -132,6 +132,8 @@ var questionEight = {
     }
 }
 
+quizObjects = [questionOne, questionTwo, questionThree, questionFour, questionFive, questionSix, questionSeven, questionEight];
+
 // grab high scores from local storage and display them to the screen
 function loadHighScores() {
     highScores = JSON.parse(localStorage.getItem("highScores")) || [];
@@ -160,6 +162,7 @@ function submitInitials(event) {
 function goBack(event) {
     event.preventDefault();
     timeLeft = 75;
+    timeLeftElement.textContent = timeLeft;
     highScoresCard.setAttribute("style", "display: none;");
     headerBarElement.setAttribute("style", "visibility: visible;");
     titleCardElement.setAttribute("style", "display: flex;");
@@ -217,6 +220,9 @@ function incorrectAnswer() {
 function subtractTimeFromClock() {
     timeLeft = timeLeft >= 15 ? timeLeft - 15 : 0;
     timeLeftElement.textContent = timeLeft;
+    if (timeLeft === 0) {
+        endQuiz();
+    }
 }
 
 // this is how we load our object to display questions and populate answer options
@@ -259,8 +265,38 @@ function startQuiz() {
     questionCardElement.setAttribute("style", "display: flex;");
     // correctAnswers = 0;
     quizObjects = [questionOne, questionTwo, questionThree, questionFour, questionFive, questionSix, questionSeven, questionEight];
+    shuffleQuizAnswers();
     startCountdownTimer()
     loadNextQuizObject();
+}
+
+// knuth shuffle borrowed from stackoverflow
+// edited for my purposes
+function shuffleQuizAnswers() {
+    for (var i=0; i < quizObjects.length; i++) {
+        var correctAnswer = quizObjects[i].options[quizObjects[i].correct];
+        var currentIndex = quizObjects[i].options.length,
+            temporaryValue, randomIndex;
+
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex--);
+            // And swap it with the current element.
+            temporaryValue = quizObjects[i].options[currentIndex];
+            quizObjects[i].options[currentIndex] = quizObjects[i].options[randomIndex];
+            quizObjects[i].options[randomIndex] = temporaryValue;
+        }
+        var newIndex;
+        newIndex = quizObjects[i].options.indexOf(correctAnswer);
+        quizObjects[i].correct = newIndex;
+        if (newIndex !== 3 && correctAnswer === "all of the above") {
+            quizObjects[i].options[newIndex] = quizObjects[i].options[3];
+            quizObjects[i].options[3] = "all of the above";
+            quizObjects[i].correct = 3;
+        }
+    }
 }
 
 // quiz over. how'd you do?
