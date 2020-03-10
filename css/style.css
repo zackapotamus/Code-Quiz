@@ -197,8 +197,12 @@ body>div>div>div.card-footer>h5 {
     padding: 30px 40px;
     margin-top: 20px;
 } */
+.btn {
+    padding: .08rem .5rem;
+    margin-bottom: 10px;
+}
 
-@media (max-width: 348px) {
+/* @media (max-width: 348px) {
     .btn {
         font-size: 0.7rem !important;
     }
@@ -208,7 +212,7 @@ body>div>div>div.card-footer>h5 {
     .btn {
         font-size: 0.8rem !important;
     }
-}
+} */
 
  /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) {
@@ -218,11 +222,23 @@ body>div>div>div.card-footer>h5 {
     li {
         margin-right: 35px;
     }
+    .btn {
+        font-size: 0.8rem;
+    }
+    h3 {
+        font-size: 1.25rem;
+    }
+    h2 {
+        font-size: 1.5rem;
+    }
+    h4 {
+        font-size: 1rem;
+    }
 }
 @media (max-width: 690px) {
     .btn {
         font-size: 1rem;
-        margin: 16px 0px 0px 0px;
+        /* margin: 16px 0px 0px 0px; */
         /* padding: 10px 15px; */
     }
 
@@ -231,21 +247,10 @@ body>div>div>div.card-footer>h5 {
     }
 }
 /* Small devices (landscape phones, less than 768px) */
-@media (max-width: 767.98px) {
-    .btn {
-        font-size: 1rem;
-        margin: 16px 0px 0px 0px;
+/* @media (max-width: 767.98px) { */
+    /* .btn { */
+        /* font-size: 1rem; */
+        /* margin: 16px 0px 0px 0px; */
         /* padding: 10px 15px; */
-    }
-
-}
-
- /* Medium devices (tablets, less than 992px) */
-@media (max-width: 991.98px) {
-    /* ... */
-}
-
- /* Large devices (desktops, less than 1200px) */
-@media (max-width: 1199.98px) {
-    /* ... */
-}
+    /* } */
+/* } */

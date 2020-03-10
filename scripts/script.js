@@ -3,12 +3,15 @@ var quizObjects = [];
 var highScores;
 var score = 0;
 
+// high score class (overkill probably but why not)
 class highScore {
     constructor(initials, score) {
         this.initials = initials;
         this.highscore = score;
     }
 }
+
+// let's target some elements
 var answerButtonElements = [document.getElementById("choice-1"), document.getElementById("choice-2"),
     document.getElementById("choice-3"), document.getElementById("choice-4")
 ];
@@ -37,7 +40,7 @@ var viewHighScoresElement = document.getElementById("view-high-scores");
 var finalScoreElement = document.getElementById("final-score");
 
 var timeLeft = 75; // 75 seconds to start
-var correctAnswers = 0;
+// var correctAnswers = 0;
 var inCorrectTimeout;
 var countdownTimerInterval;
 
@@ -77,64 +80,48 @@ var questionTwo = {
 }
 var questionThree = {
     question: "What control structure lets you iterate a set number of times?",
-    options: ["for loop", "while loop", "do-while", "banana"],
+    options: ["for loop", "while loop", "do-while", "hyperloop"],
     correct: 0,
     isCorrect: function (choice) {
         return (choice == this.correct);
     }
 }
 var questionFour = {
-    question: "What kind of function is passed as a parameter to another function?",
-    options: ["void", "static", "callback", "banana"],
+    question: "Commonly used data types do NOT include:",
+    options: ["strings", "booleans", "alerts", "numbers"],
     correct: 2,
     isCorrect: function (choice) {
         return (choice == this.correct);
     }
 }
 var questionFive = {
-    question: "What kind of function is passed as a parameter to another function?",
-    options: ["void", "static", "callback", "banana"],
-    correct: 2,
+    question: "The condition of an if / else statement is enclosed within _____.",
+    options: ["quotes", "parentheses", "curly brackets", "square brackets"],
+    correct: 1,
     isCorrect: function (choice) {
         return (choice == this.correct);
     }
 }
 var questionSix = {
-    question: "What kind of function is passed as a parameter to another function?",
-    options: ["void", "static", "callback", "banana"],
-    correct: 2,
+    question: "Arrays in JavaScript can be used to store _____.",
+    options: ["numbers", "strings", "booleans", "all of the above"],
+    correct: 3,
     isCorrect: function (choice) {
         return (choice == this.correct);
     }
 }
 var questionSeven = {
-    question: "What kind of function is passed as a parameter to another function?",
-    options: ["void", "static", "callback", "banana"],
+    question: "String values must be enclosed within _____ when being assigned to variables.",
+    options: ["comments", "curly brackets", "quotes", "parentheses"],
     correct: 2,
     isCorrect: function (choice) {
         return (choice == this.correct);
     }
 }
 var questionEight = {
-    question: "What kind of function is passed as a parameter to another function?",
-    options: ["void", "static", "callback", "banana"],
-    correct: 2,
-    isCorrect: function (choice) {
-        return (choice == this.correct);
-    }
-}
-var questionNine = {
-    question: "What kind of function is passed as a parameter to another function?",
-    options: ["void", "static", "callback", "banana"],
-    correct: 2,
-    isCorrect: function (choice) {
-        return (choice == this.correct);
-    }
-}
-var questionTen = {
-    question: "What kind of function is passed as a parameter to another function?",
-    options: ["void", "static", "callback", "banana"],
-    correct: 2,
+    question: "A very useful tool used during development and debugging for printing content to the debugger is:",
+    options: ["JavaScript", "terminal/bash", "for loops", "console log"],
+    correct: 3,
     isCorrect: function (choice) {
         return (choice == this.correct);
     }
@@ -199,7 +186,7 @@ function correctAnswer() {
         inCorrectElement.setAttribute("style", "visibility: hidden;")
         inCorrectElement.set
     }, 1000);
-    correctAnswers++;
+    // correctAnswers++;
 }
 
 function incorrectAnswer() {
@@ -249,12 +236,12 @@ viewHighScoresElement.addEventListener("click", viewHighScores);
 
 function startQuiz() {
     timeLeft = 75;
-    score = 0;
+    // score = 0;
     timeLeftElement.textContent = timeLeft;
     titleCardElement.setAttribute("style", "display: none;");
     questionCardElement.setAttribute("style", "display: flex;");
-    correctAnswers = 0;
-    quizObjects = [questionOne, questionTwo, questionThree, questionFour, questionFive, questionSix, questionSeven, questionEight, questionNine, questionTen];
+    // correctAnswers = 0;
+    quizObjects = [questionOne, questionTwo, questionThree, questionFour, questionFive, questionSix, questionSeven, questionEight];
     startCountdownTimer()
     loadNextQuizObject();
 }
@@ -264,8 +251,8 @@ function endQuiz() {
     questionCardElement.setAttribute("style", "display: none;");
     allDoneCard.setAttribute("style", "display: flex;")
     clearInterval(countdownTimerInterval);
-    score = correctAnswers * (timeLeft > 0 ? timeLeft : 1);
-    finalScoreElement.textContent = score;
+    // score = correctAnswers * (timeLeft > 0 ? timeLeft : 1);
+    finalScoreElement.textContent = timeLeft;
 
 }
 
