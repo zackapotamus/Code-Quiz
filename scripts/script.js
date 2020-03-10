@@ -45,11 +45,11 @@ function startCountdownTimer() {
     countdownTimerInterval = setInterval(function () {
         if (--timeLeft <= 0) {
             clearInterval(countdownTimerInterval);
-            timeLeftElement.textContent = "Time: 0";
+            timeLeftElement.textContent = 0;
             timeLeft = 0;
             endQuiz();
         } else {
-            timeLeftElement.textContent = "Time: " + timeLeft;
+            timeLeftElement.textContent = timeLeft;
         }
     }, 1000);
 }
@@ -249,7 +249,7 @@ viewHighScoresElement.addEventListener("click", viewHighScores);
 function startQuiz() {
     timeLeft = 75;
     score = 0;
-    timeLeftElement.textContent = "Time: " + timeLeft;
+    timeLeftElement.textContent = timeLeft;
     titleCardElement.setAttribute("style", "display: none;");
     questionCardElement.setAttribute("style", "display: flex;");
     correctAnswers = 0;
