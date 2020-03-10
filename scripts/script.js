@@ -28,7 +28,9 @@ var initialsElement = document.getElementById("initials");
 var starQuizElement = document.getElementById("start-quiz-button");
 
 // clicking the start quiz button starts the quiz
-starQuizElement.addEventListener("click", function() {startQuiz()});
+starQuizElement.addEventListener("click", function () {
+    startQuiz()
+});
 
 var titleCardElement = document.getElementById("title-card");
 var questionCardElement = document.getElementById("question-card");
@@ -133,22 +135,22 @@ var questionEight = {
 // grab high scores from local storage and display them to the screen
 function loadHighScores() {
     highScores = JSON.parse(localStorage.getItem("highScores")) || [];
-    for (var i=0; i < highScores.length; i++) {
+    for (var i = 0; i < highScores.length; i++) {
         highScoresListElement.innerHTML = highScoresListElement.innerHTML + "<li>" + highScores[i].initials + " - " + highScores[i].highscore + "</li>";
     }
 }
 
 // add a new high score
 function addHighScore(initials, score) {
-    highScores.push(new highScore(initials, score));
+    highScores.push(new highScore(initials, timeLeft));
     localStorage.setItem("highScores", JSON.stringify(highScores));
-    highScoresListElement.innerHTML = highScoresListElement.innerHTML + "<li>" + initials + " - " + score + "</li>"
+    highScoresListElement.innerHTML = highScoresListElement.innerHTML + "<li>" + initials + " - " + timeLeft + "</li>"
 }
 
 // event for when submit button pressed for entering initials
 function submitInitials(event) {
     event.preventDefault();
-    addHighScore(initialsElement.value, score);
+    addHighScore(initialsElement.value, timeLeft);
     allDoneCard.setAttribute("style", "display: none;");
     headerBarElement.setAttribute("style", "visibility: hidden;");
     highScoresCard.setAttribute("style", "display: flex;");
@@ -157,6 +159,7 @@ function submitInitials(event) {
 // go back button (to start the quiz over) when viewing high scores
 function goBack(event) {
     event.preventDefault();
+    timeLeft = 75;
     highScoresCard.setAttribute("style", "display: none;");
     headerBarElement.setAttribute("style", "visibility: visible;");
     titleCardElement.setAttribute("style", "display: flex;");
@@ -170,7 +173,7 @@ submitInitialsElement.addEventListener("submit", submitInitials);
 submitInitialsElement.addEventListener("click", submitInitials);
 
 // for clearing high scores
-clearHighScoresButtonElement.addEventListener("click", function(event) {
+clearHighScoresButtonElement.addEventListener("click", function (event) {
     event.preventDefault();
     highScores = [];
     localStorage.setItem("highScores", JSON.stringify([]));
