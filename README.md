@@ -11,10 +11,13 @@ I accomplished this through by looping through an array of question objects and 
 ## Screenshots
 
 ![start page](https://zackapotamus.github.io/Code-Quiz/screenshots/start_page.png)
+
 ![quiz page](https://zackapotamus.github.io/Code-Quiz/screenshots/quiz_page.png)
+
 ![high score page](https://zackapotamus.github.io/Code-Quiz/screenshots/highscore_page.png)
 
 ## Links
 
 [Github Repository](https://github.com/zackapotamus/Code-Quiz/)
+
 [Github Hosted Page](https://zackapotamus.github.io/Code-Quiz/)
